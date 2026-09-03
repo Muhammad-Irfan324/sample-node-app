@@ -23,12 +23,12 @@ jobs:
     with:
       node-version: "22"
       sonar-project-key: "sample-node-app"
-      sonar-host-url: ${{ secrets.SONAR_HOST_URL }}
       run-integration-tests: true
       push-image: ${{ github.event_name == 'push' && github.ref == 'refs/heads/main' }}
       registry-url: "registry.gitlab.com"
       image-name: "muhammad-irfan-tahir/sample-node-app"
     secrets:
       SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+      SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
       REGISTRY_USER: ${{ secrets.REGISTRY_USER }}
       REGISTRY_TOKEN: ${{ secrets.REGISTRY_TOKEN }}
