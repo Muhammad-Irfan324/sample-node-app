@@ -1,0 +1,38 @@
+---
+######################################################################
+# Sample Node App CI
+######################################################################
+#
+# Runs lint, tests, security scans, and Docker build on every pull
+# request. Calls the reusable application-ci workflow from
+# platform-workflows.
+######################################################################
+
+name: "Application CI"
+
+on:
+  pull_request:
+    branches: [main]
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+  security-events: write
+
+jobs:
+  app-ci:
+    name: "Application CI"
+    uses: Muhammad-Irfan324/platform-workflows/.github/workflows/application-ci.yaml@v1
+    with:
+      node-version: "22"
+      sonar-project-key: "sample-node-app"
+      run-integration-tests: true
+      push-image: ${{ github.event_name == 'push' && github.ref == 'refs/heads/main' }}
+      registry-url: "registry.gitlab.com"
+      image-name: "muhammad-irfan-tahir/sample-node-app"
+    secrets:
+      SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+      SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
+      REGISTRY_USER: ${{ secrets.REGISTRY_USER }}
+      REGISTRY_TOKEN: ${{ secrets.REGISTRY_TOKEN }}
